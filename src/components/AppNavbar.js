@@ -13,7 +13,6 @@ export default function AppNavbar(){
     const {state, dispatch} = useContext(UserContext)
     const token = localStorage.getItem('token')
     const [cartCounter , setCartCounter] = useState(0)
-    const [userId, setUserId] = useState("")
 
     const cartItems = () => {
 
@@ -33,24 +32,11 @@ export default function AppNavbar(){
         
     }
 
-    const userProfile = () => {
-        fetch(`https://deepbeataudio.herokuapp.comapi/users/profile`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }, 
-        })
-        .then(res => res.json())
-        .then(res => {setUserId(res._id)})
-    }
-
-
 
     useEffect( () => {
         UserNavlinks()
 		if(localStorage.getItem('token')){
 			dispatch({type: "USER", payload: true})
-            userProfile()
             cartItems()
 		}
 	}, [])
@@ -89,17 +75,17 @@ export default function AppNavbar(){
                 return(
                 <Fragment>
                         <Nav.Link 
-                        href={`/${userId}/profile`}
+                        href={`/user/profile`}
                         className='text-light nav-link'>
                         My Account</Nav.Link>
 
                         <Nav.Link 
-                        href={`/${userId}/myCart`}
+                        href={`/user/myCart`}
                         className='text-light nav-link'>
                         My Cart ({cartCounter})</Nav.Link>
 
                         <Nav.Link 
-                        href={`/${userId}/myOrders`}
+                        href={`/user/myOrders`}
                         className='text-light nav-link'>
                         My Orders</Nav.Link>
 
